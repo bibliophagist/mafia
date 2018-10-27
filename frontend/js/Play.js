@@ -12,7 +12,7 @@ $('#loginForm').submit(function (e) {
         type: 'POST',
         url: newEngine.bankServerUrl + "/" + "login",
         success: function (data) {
-            window.location.href = "test.html";
+            window.location.href = "index.html";
         },
         error: function (data) {
             console.log(data);

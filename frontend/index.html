@@ -1,29 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/index.css" rel="stylesheet">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Mafia</title>
 </head>
-<body>
-<div class="js-view game-start active">
-    <h1 class="text-center">МАФИЯ</h1>
 
-    <form id="loginForm">
-        <div class="form-group">
-            <label for="loginInputLogin">Email address</label>
-            <input type="text" class="form-control" id="loginInputLogin" placeholder="Enter email">
+<body id="body">
+<nav class="navbar navbar-dark">
+    <a class="navbar-brand" href="#">
+        <img src="images/test.jpeg" width="60" height="60" alt="">
+    </a>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="form-group">
+                <table class="table table-hover">
+                    <caption><h1>Ход игры</h1></caption>
+                    <tbody class="table-striped" id="game-history-list">
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="loginInputPassword">Password</label>
-            <input type="password" class="form-control" id="loginInputPassword" placeholder="Password">
+        <div class="col-sm">
+            <h1>Ваша роль</h1>
+            <h2 class="text-center" id="view-citizens-greeting-role">Тут будет роль</h2>
+            <div id="view-citizens-greeting-description">Тут будет описание</div>
+            <img src="" id="view-citizens-greeting-pic">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </div>
 </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="js/bootstrap.js.map"></script>
-<script src="js/Engine.js"></script>
-<script src="js/Play.js"></script>
+
 </body>
+
 </html>

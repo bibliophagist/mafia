@@ -1,5 +1,6 @@
 package game.controller;
 
+import game.pool.NewGameHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +25,19 @@ public class GameController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> login(@RequestParam("login") String login,
                                         @RequestParam("password") String password) {
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(login + password, headers, HttpStatus.OK);
+        LOGGER.info("Request for login was handled successfully: {}", true);
+        return responseEntity;
+    }
+
+    @RequestMapping(
+            path = "findGame",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> findGame(@RequestParam("login") String login) {
+        NewGameHandler.connectToGame(login);
         ResponseEntity<String> responseEntity = new ResponseEntity<>("", headers, HttpStatus.OK);
         LOGGER.info("Request for login was handled successfully: {}", true);
         return responseEntity;
