@@ -3,13 +3,17 @@ package game.pool;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GamePool {
-    private final ConcurrentHashMap<Long, GameSession> gamePool = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Long, GameSession> gamePoolMap = new ConcurrentHashMap<>();
 
     public void addToGamePool(GameSession gameSession) {
-        gamePool.put(gameSession.getGameId(), gameSession);
+        gamePoolMap.put(gameSession.getGameId(), gameSession);
     }
 
-    public ConcurrentHashMap<Long, GameSession> getGamePool() {
-        return gamePool;
+    public ConcurrentHashMap<Long, GameSession> getGamePoolMap() {
+        return gamePoolMap;
+    }
+
+    public void clearGamePool(){
+        gamePoolMap.clear();
     }
 }

@@ -1,12 +1,7 @@
 package game.pool;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import java.util.concurrent.atomic.AtomicLong;
 
-@Component
-@Scope("prototype")
 public class GameSession {
     private static final AtomicLong atomicLong = new AtomicLong();
     private final long gameId;
@@ -26,5 +21,14 @@ public class GameSession {
 
     public boolean isStarted() {
         return started;
+    }
+
+    /**
+     * This method for testing only.
+     *
+     * @return Current number of GameSessions + 1
+     */
+    public static AtomicLong getAtomicLong() {
+        return atomicLong;
     }
 }
