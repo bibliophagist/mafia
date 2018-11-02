@@ -1,6 +1,7 @@
 package game.controller;
 
-import game.pool.NewGameHandler;
+import game.player.Player;
+import game.tools.NewGameHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -37,8 +38,8 @@ public class GameController {
     )
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> findGame(@RequestParam("login") String login) {
-        NewGameHandler.connectToGame(login);
-        ResponseEntity<String> responseEntity = new ResponseEntity<>("", headers, HttpStatus.OK);
+        Long gameID = NewGameHandler.connectToGame(new Player(login));
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(gameID.toString(), headers, HttpStatus.OK);
         LOGGER.info("Request for login was handled successfully: {}", true);
         return responseEntity;
     }

@@ -1,4 +1,6 @@
-package game.pool;
+package game.tools.pool;
+
+import game.tools.GameSession;
 
 import java.util.concurrent.ConcurrentHashMap;
 

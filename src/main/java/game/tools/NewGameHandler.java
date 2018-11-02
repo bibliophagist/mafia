@@ -1,5 +1,7 @@
-package game.pool;
+package game.tools;
 
+import game.player.Player;
+import game.tools.pool.GamePool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,43 +11,37 @@ public class NewGameHandler {
 
     private static GameSession gameSession;
 
-    private static boolean stopRequested = false;
     private static final GamePool gamePool = new GamePool();
     private static final Logger LOGGER = LoggerFactory.getLogger(NewGameHandler.class);
-    private static final ConcurrentLinkedQueue<String> playerQueue = new ConcurrentLinkedQueue<>();
+    private static final ConcurrentLinkedQueue<Player> playerQueue = new ConcurrentLinkedQueue<>();
 
     static {
         setGameSession(new GameSession());
         LOGGER.info("Thread for player queue is started");
-        Thread waitingForPlayers = new Thread(() -> {
-            while (!stopRequested) {
+        new Thread(() -> {
+            Thread.currentThread().setName("playerQueue");
+            while (!Thread.currentThread().isInterrupted()) {
                 if (playerQueue.size() >= 10) {
                     for (int i = 0; i < 10; i++) {
-                        playerQueue.poll();
+                        gameSession.addToPlayersList(playerQueue.poll());
                     }
-                    gameStart();
+                    new GameStart(gameSession).start();
+
+                    setGameSession(new GameSession());
                 }
             }
-        });
-        waitingForPlayers.start();
+        }).start();
     }
 
-    private static void gameStart() {
-        LOGGER.info("Game with id {} was started", NewGameHandler.gameSession.getGameId());
-        NewGameHandler.gameSession.setStarted(true);
-        setGameSession(new GameSession());
-    }
-
-
-    public static void setGameSession(GameSession gameSession) {
+    private static void setGameSession(GameSession gameSession) {
         LOGGER.debug("Added new GameSession with id {}", gameSession.getGameId());
         gamePool.addToGamePool(gameSession);
         NewGameHandler.gameSession = gameSession;
     }
 
-    public static long connectToGame(String login) {
-        LOGGER.debug("Request from {} for connecting to the Game", login);
-        playerQueue.add(login);
+    public static long connectToGame(Player player) {
+        LOGGER.debug("Request from {} for connecting to the Game", player.getName());
+        playerQueue.offer(player);
         return NewGameHandler.gameSession.getGameId();
     }
 
