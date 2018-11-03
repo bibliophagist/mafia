@@ -5,7 +5,6 @@ import game.player.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameStart {
@@ -30,14 +29,15 @@ public class GameStart {
     }
 
     private void setRoles() {
-        ArrayList<Player> players = gameSession.getPlayers();
+        HashMap<String, Player> players = gameSession.getPlayers();
         HashMap<Role, Boolean> roleExist = new HashMap<>();
         for (Role role : Role.values()) {
             roleExist.put(role, false);
         }
         int mafiaInGame = 0;
         int townsmanInGame = 0;
-        for (Player player : players) {
+        for (String key : players.keySet()) {
+            Player player = players.get(key);
             while (player.getRole() == null) {
                 Role randomRole = Role.randomRole();
                 if (!roleExist.get(randomRole)) {

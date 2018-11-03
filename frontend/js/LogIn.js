@@ -10,7 +10,7 @@ $('#loginForm').submit(function (e) {
         },
         dataType: 'text',
         type: 'POST',
-        url: newEngine.bankServerUrl + "/" + "login",
+        url: newEngine.gameServerUrl + "/" + "login",
         success: function (data) {
             window.location.href = "index.html";
         },

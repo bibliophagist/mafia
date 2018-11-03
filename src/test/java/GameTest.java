@@ -1,4 +1,3 @@
-import game.controller.GameController;
 import game.player.Player;
 import game.player.Role;
 import game.tools.GameSession;
@@ -6,9 +5,6 @@ import game.tools.GameStart;
 import game.tools.NewGameHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -35,7 +31,8 @@ public class GameTest {
         int townsmanNumber = gameSession.getPlayers().size() - mafiaNumber - 3;
         int currentMafiaNumber = 0;
         int currentTownsmanNumber = 0;
-        for (Player player : gameSession.getPlayers()) {
+        for (String key : gameSession.getPlayers().keySet()) {
+            Player player = gameSession.getPlayers().get(key);
             if (player.getRole() != null) {
                 roleExist.replace(player.getRole(), true);
                 if (player.getRole() == Role.MAFIA) {
@@ -63,15 +60,6 @@ public class GameTest {
     }
 
     @Test
-    public void testGameController() {
-        HttpHeaders headers = new HttpHeaders();
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(
-                Long.toString(GameSession.getAtomicLong().get() - 1), headers, HttpStatus.OK);
-        Assert.assertEquals(new GameController().findGame("test"), responseEntity);
-        NewGameHandler.clearGamePool();
-    }
-
-    @Test
     public void testConnectToGame() {
         for (int i = 0; i < 100; i++) {
             NewGameHandler.connectToGame(new Player("test"));
@@ -81,7 +69,7 @@ public class GameTest {
         } catch (InterruptedException e) {
             LOGGER.error("Exception was thrown while testing", e);
         }
-        Assert.assertEquals(NewGameHandler.getGamePool().getGamePoolMap().size(), 11);
+        Assert.assertEquals(NewGameHandler.getGamePool().getGamePoolMap().size(), GameSession.getAtomicLong().get() - 1);
         NewGameHandler.clearGamePool();
     }
 

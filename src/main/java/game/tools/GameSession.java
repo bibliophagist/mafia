@@ -3,6 +3,7 @@ package game.tools;
 import game.player.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class GameSession {
@@ -10,17 +11,22 @@ public class GameSession {
     private final long gameId;
     private boolean started = false;
     private boolean finished = false;
-    private final ArrayList<Player> players = new ArrayList<>(10);
+    private final HashMap<String, Player> players = new HashMap<>(10);
+    private final ArrayList<Player> playersJoined = new ArrayList<>(10);
 
     public GameSession() {
         this.gameId = atomicLong.getAndIncrement();
     }
 
     public void addToPlayersList(Player player) {
-        players.add(player);
+        players.put(player.getName(), player);
     }
 
-    public ArrayList<Player> getPlayers() {
+    public void playerJoined(String login) {
+        playersJoined.add(players.get(login));
+    }
+
+    public HashMap<String, Player> getPlayers() {
         return players;
     }
 

@@ -1,7 +1,7 @@
 class Engine {
 
     constructor() {
-        this.bankServerUrl = "http://localhost:8080";
+        this.gameServerUrl = "http://localhost:8080"
     }
 
     load() {

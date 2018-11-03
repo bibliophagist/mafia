@@ -1,19 +1,27 @@
 package game;
 
-import game.player.Player;
-import game.tools.GameSession;
-import game.tools.GameStart;
+import game.web.socket.QueryMap;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Iterator;
+import java.util.Map;
 
 public class draft {
     public static void main(String[] args) {
-        GameSession gameSession = new GameSession();
-        for (int i = 0; i < 10; i++) {
-            gameSession.addToPlayersList(new Player("test" + i));
+        Map<String, String> map = null;
+        try {
+            URI uri = new URI("/game/connect?gameId=0&name=test");
+            map = new QueryMap(uri).getQueryMap();
+            for (String s : map.keySet()) {
+                System.out.println(s + " " + map.get(s));
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
-        GameStart gameStart = new GameStart(gameSession);
-        for (Player player : gameSession.getPlayers()) {
-            System.out.println(player.getRole());
-        }
+        QueryMap queryMap = new QueryMap(map);
+        System.out.println(queryMap.toString());
+
 
     }
 }
