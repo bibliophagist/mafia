@@ -9,7 +9,7 @@ public enum Role {
     MAFIA,
     TOWNSMAN,
     DOCTOR,
-    COURTESAN,
+    KILLER,
     SHERIFF;
 
     private static final List<Role> VALUES =

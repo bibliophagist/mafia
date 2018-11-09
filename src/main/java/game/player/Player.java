@@ -29,4 +29,12 @@ public class Player {
     public void setGameId(long gameId) {
         this.gameId = gameId;
     }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
 }

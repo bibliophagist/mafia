@@ -12,12 +12,12 @@ public class NewGameHandler {
     private static GameSession gameSession;
 
     private static final GamePool gamePool = new GamePool();
-    private static final Logger LOGGER = LoggerFactory.getLogger(NewGameHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(NewGameHandler.class);
     private static final ConcurrentLinkedQueue<Player> playerQueue = new ConcurrentLinkedQueue<>();
 
     static {
         setGameSession(new GameSession());
-        LOGGER.info("Thread for player queue is started");
+        log.info("Thread for player queue is started");
         new Thread(() -> {
             Thread.currentThread().setName("playerQueue");
             while (!Thread.currentThread().isInterrupted()) {
@@ -34,13 +34,13 @@ public class NewGameHandler {
     }
 
     private static void setGameSession(GameSession gameSession) {
-        LOGGER.debug("Added new GameSession with id {}", gameSession.getGameId());
+        log.debug("Added new GameSession with id {}", gameSession.getGameId());
         gamePool.addToGamePool(gameSession);
         NewGameHandler.gameSession = gameSession;
     }
 
     public static long connectToGame(Player player) {
-        LOGGER.debug("Request from {} for connecting to the Game", player.getName());
+        log.debug("Request from {} for connecting to the Game", player.getName());
         playerQueue.offer(player);
         return NewGameHandler.gameSession.getGameId();
     }

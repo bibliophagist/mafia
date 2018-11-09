@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class GameController {
 
     private final HttpHeaders headers = new HttpHeaders();
-    private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
+    private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
     @RequestMapping(
             path = "login",
@@ -27,7 +27,7 @@ public class GameController {
     public ResponseEntity<String> login(@RequestParam("login") String login,
                                         @RequestParam("password") String password) {
         ResponseEntity<String> responseEntity = new ResponseEntity<>(login + password, headers, HttpStatus.OK);
-        LOGGER.info("Request for login was handled successfully: {}", true);
+        log.info("Request for login was handled successfully: {}", true);
         return responseEntity;
     }
 
@@ -38,7 +38,7 @@ public class GameController {
     )
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> findGame(@RequestParam("login") String login) {
-        LOGGER.debug("Request for join from {}", login);
+        log.debug("Request for join from {}", login);
         long gameID = NewGameHandler.connectToGame(new Player(login));
         return new ResponseEntity<>(Long.toString(gameID), headers, HttpStatus.OK);
     }

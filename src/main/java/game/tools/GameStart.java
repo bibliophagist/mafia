@@ -2,13 +2,14 @@ package game.tools;
 
 import game.player.Player;
 import game.player.Role;
+import game.tools.GameMechanics.GameMechanics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 
 public class GameStart {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GameStart.class);
+    private static final Logger log = LoggerFactory.getLogger(GameStart.class);
     private final int mafiaNumber;
     private final int townsmanNumber;
     private final GameSession gameSession;
@@ -21,10 +22,10 @@ public class GameStart {
     }
 
     public void start() {
-        GameMechanics gameMechanics = new GameMechanics();
-        LOGGER.info("Game with id {} was started", gameSession.getGameId());
+        GameMechanics gameMechanics = new GameMechanics(gameSession);
+        log.info("Game with id {} was started", gameSession.getGameId());
         Thread mainGameTread = new Thread(gameMechanics, "Game number " + gameSession.getGameId());
-        LOGGER.debug("Thread for player queue was started");
+        log.debug("Thread for player queue was started");
         mainGameTread.start();
     }
 
@@ -41,7 +42,7 @@ public class GameStart {
             while (player.getRole() == null) {
                 Role randomRole = Role.randomRole();
                 if (!roleExist.get(randomRole)) {
-                    LOGGER.info("Player {} is {}!", player.getName(), randomRole);
+                    log.info("Player {} is {}!", player.getName(), randomRole);
                     player.setRole(randomRole);
                     if (randomRole != Role.MAFIA && randomRole != Role.TOWNSMAN) {
                         roleExist.replace(randomRole, true);
